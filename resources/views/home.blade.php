@@ -22,7 +22,7 @@
 </head>
 <body>
   <div id="app">
-    <example-component/>
+    <weather-forecast/>
   </div>
 </body>
 </html>
