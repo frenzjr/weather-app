@@ -29,6 +29,6 @@ class VenuesController extends Controller
             ];
         });
 
-        return json_encode($response);
+        return response($response);
     }
 }
