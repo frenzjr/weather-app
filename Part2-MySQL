@@ -1,0 +1,25 @@
+1.
+SELECT CONCAT('T', LPAD(trn_teacher.id, 11, 0)) AS ID, nickname AS Nickname, 
+(CASE
+    WHEN status = 0 THEN 'Discontinued'
+    WHEN status = 1 THEN 'Active'
+    WHEN status = 2 THEN 'No Show'
+    END
+) AS Status, (
+CASE
+    WHEN trn_teacher_role.role = 1 THEN 'Trainer'
+    WHEN trn_teacher_role.role = 2  THEN 'Assesor'
+    WHEN trn_teacher_role.role = 3  THEN 'Staff'
+    END
+) AS Roles FROM trn_teacher INNER JOIN trn_teacher_role ON trn_teacher.id = trn_teacher_role.teacher_id;
+
+2. 
+SELECT trn_teacher.id AS ID, nickname AS Nickname, SUM(
+    CASE WHEN trn_timetable.status = 1 THEN 1 END
+) AS Open, SUM(
+    CASE WHEN trn_timetable.status = 2 THEN 1 END
+) AS Reserved, SUM(
+    CASE WHEN trn_evaluation.result = 1 THEN 1 END
+) AS Taught, SUM(
+    CASE WHEN trn_evaluation.result = 2 THEN 1 END
+) AS No Show FROM trn_teacher LEFT JOIN trn_teacher_role ON trn_teacher.id = trn_teacher_role.teacher_id LEFT JOIN trn_time_table ON trn_teacher.id = trn_time_table.teacher_id LEFT JOIN trn_evaluation ON trn_teacher.id = trn_evaluation.teacher_id;
